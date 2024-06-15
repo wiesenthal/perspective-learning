@@ -1,7 +1,10 @@
-export default function Home() {
+import { PageNavigatorProvider } from "../hooks/pageContext";
+import HomePage from "./HomePage";
+
+export default function MAINPAGE() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>Test</div>
-    </main>
+    <PageNavigatorProvider>
+      <HomePage />
+    </PageNavigatorProvider>
   );
 }
