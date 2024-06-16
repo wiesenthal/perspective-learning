@@ -44,7 +44,7 @@ const getAudio = async (text: string, model: string) => {
             console.error("Error writing audio to file:", err);
             reject(err);
           } else {
-            console.log("Audio file written to audio.wav");
+            console.log(`Audio file written to ${fileName}`);
             resolve(undefined);
           }
         });
@@ -53,9 +53,7 @@ const getAudio = async (text: string, model: string) => {
       throw err;
     }
 
-    return `${
-      process.env.NODE_ENV === "development" ? "" : "/tmp"
-    }/public/audio/${fileName}`;
+    return `/audio/${fileName}`;
   } else {
     console.error("Error generating audio:", stream);
     throw new Error("Error generating audio: Stream is empty");
