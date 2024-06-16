@@ -227,7 +227,7 @@ export default function ChatBox({
           .filter((message) => message.role !== "system")
           .map((message) => (
             <MessageBox key={message.id} role={message.role} id={message.id}>
-              <pre>{message.content}</pre>
+              {message.content}
             </MessageBox>
           ))}
         <div ref={messagesEndRef} />
