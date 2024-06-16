@@ -33,8 +33,8 @@ body {
 }
 
 @font-face {
-  font-family: "Ageta";
-  src: url("/fonts/Ageta.otf") format("opentype");
+  font-family: "SpitShine";
+  src: url("/fonts/SpitShine.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

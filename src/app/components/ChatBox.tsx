@@ -82,13 +82,13 @@ export default function ChatBox({
           {
             role: "system",
             content:
-              "Encapsulate the entire conversation into 3 short words or less.",
+              "Encapsulate the subject into 3 short words or less",
           },
           ...messages,
           {
             role: "user",
             content:
-              "Encapsulate the entire conversation into 3 short words or less.",
+              "Encapsulate the subject into 3 short words or less, do not include upload or download",
           },
         ],
       }),
@@ -264,7 +264,7 @@ function VoiceSelect({
     <div className="fixed bottom-72 right-4 md:bottom-16 md:right-16">
       <div className="flex flex-row items-center justify-center w-full gap-8">
         <select
-          className="bg-neutral-500 text-white rounded-5xl p-2 w-20 h-20 md:w-24 md:h-24 flex justify-center items-center text-xs md:text-md font-ageta text-center"
+          className="bg-neutral-500 text-white rounded-5xl p-2 w-20 h-20 md:w-24 md:h-24 flex justify-center items-center text-xs md:text-md font-custom text-center"
           id="voices"
           name="voices"
           value={voice}

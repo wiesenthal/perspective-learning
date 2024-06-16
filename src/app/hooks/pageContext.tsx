@@ -6,11 +6,12 @@ import useLocalStorage from "./useLocalStorage";
 export enum Page {
   Home,
   Upload,
+  Download,
 }
 
 interface PageNavigatorContextProps {
   page?: Page;
-  setPage: React.Dispatch<React.SetStateAction<Page | undefined>>;
+  setPage: (page: Page) => void;
 }
 
 const PageNavigatorContext = createContext<

@@ -14,7 +14,7 @@ export default function Button({
   return (
     <button
       className={cn(
-        "bg-blue-900 font-bold text-4xl text-white/90 rounded-full p-48 h-4 w-4 flex justify-center items-center hover:bg-blue-800 scale-y-100 hover:scale-y-99 transition-all hover:shadow-black hover:shadow-inner duration-100 hover:text-white font-ageta",
+        "bg-blue-900 font-bold text-4xl md:text-6xl text-white/90 rounded-full p-48 h-4 w-4 flex justify-center items-center hover:bg-blue-800 scale-y-100 hover:scale-y-99 transition-all hover:shadow-black hover:shadow-inner duration-100 hover:text-white font-custom",
         className
       )}
       onMouseDown={onMouseDown}

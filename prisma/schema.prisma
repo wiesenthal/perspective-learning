@@ -29,7 +29,7 @@ model Message {
 
   role          String
   content       String
-  perspective   Perspective @relation(fields: [perspectiveId], references: [id])
+  perspective   Perspective @relation(fields: [perspectiveId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   perspectiveId String
 
   createdAt DateTime @default(now())
