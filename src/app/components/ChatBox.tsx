@@ -307,7 +307,7 @@ function MessageBox({
       <div className="text-sm text-gray-500">
         {role === "user" ? "You" : "AI"}
       </div>
-      <div className="md:p-8 rounded-2xl w-full text-lg md:text-2xl">
+      <div className="md:p-8 rounded-2xl w-full text-lg md:text-2xl whitespace-pre-wrap">
         {children}
       </div>
     </div>
