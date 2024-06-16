@@ -50,6 +50,7 @@ You will put this new person in a situation which reflects the core belief of th
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store",
       });
       const data = await response.json();
       setPerspectives(data);
