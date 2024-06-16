@@ -222,7 +222,7 @@ export default function ChatBox({
 
   return (
     <div className="flex flex-col items-center size-full overflow-auto">
-      <div className="flex flex-col items-center justify-center w-full md:w-3/4 md:p-8 gap-8">
+      <div className="flex flex-col items-center justify-center w-full md:w-3/4 md:p-8 gap-4 md:gap-8">
         {messages
           .filter((message) => message.role !== "system")
           .map((message) => (
