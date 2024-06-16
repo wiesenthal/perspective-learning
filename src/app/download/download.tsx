@@ -109,7 +109,7 @@ You will put this new person in a situation which reflects the core belief of th
         />
       )}
       <Button
-        className="text-2xl md:text-4xl p-12 md:p-16 fixed bottom-48 right-4 md:bottom-12 md:left-12"
+        className="text-2xl md:text-4xl p-12 md:p-16 fixed bottom-4 right-4 md:bottom-12 md:left-12"
         onMouseDown={() => {
           setPage(Page.Home);
         }}

@@ -260,7 +260,7 @@ function VoiceSelect({
   setVoice: (voice: string) => void;
 }) {
   return (
-    <div className="fixed bottom-72 right-4 md:bottom-16 md:right-16">
+    <div className="fixed bottom-28 right-4 md:bottom-16 md:right-16">
       <div className="flex flex-row items-center justify-center w-full gap-8">
         <select
           className="bg-neutral-500 text-white rounded-5xl p-2 w-12 h-12 md:w-24 md:h-24 flex justify-center items-center text-xs md:text-md font-custom text-center"
