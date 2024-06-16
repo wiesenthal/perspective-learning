@@ -1,14 +1,43 @@
 "use client";
 
+import useLocalStorage from "@/app/hooks/useLocalStorage";
 import { useRefState } from "@/app/hooks/useRefState";
 import { cn } from "@/lib/utils";
-import { useChat } from "@ai-sdk/react";
+import { useChat, Message } from "@ai-sdk/react";
 import { useEffect, useRef, useState } from "react";
 
-export default function ChatBox({}: {}) {
+export default function ChatBox({
+  id,
+  defaultMessages,
+  setTitle,
+  doesSave,
+}: {
+  id: string;
+  defaultMessages?: Message[];
+  setTitle: (title: string) => void;
+  doesSave: boolean;
+}) {
   const [voice, setVoice] = useState("aura-luna-en");
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const {
+    value: initialMessages,
+    setValue: setInitialMessages,
+    getIsLoading: getIsLoadingInitialMessages,
+  } = useLocalStorage<Message[]>(
+    `initialMessages-${id}`,
+    defaultMessages ?? []
+  );
+  const hasSubmitted = useRef(false);
+
+  const {
+    messages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    setMessages,
+    isLoading: isLoadingChat,
+  } = useChat({
     api: "/api/generate",
+    initialMessages,
     onFinish: (message) => {
       let sentences = message.content
         .match(/[^.!?]+[.!?]/g)
@@ -31,7 +60,80 @@ export default function ChatBox({}: {}) {
     }
   };
 
+  const { value: title, setValue: _setTitle } = useLocalStorage<string>(
+    `title-${id}`,
+    ""
+  );
+
   useEffect(() => {
+    if (title) {
+      setTitle(title);
+    }
+  }, [title]);
+
+  const promptForSummary = async () => {
+    const result = await fetch("/api/prompt", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content:
+              "Encapsulate the entire conversation into 3 short words or less.",
+          },
+          ...messages,
+          {
+            role: "user",
+            content:
+              "Encapsulate the entire conversation into 3 short words or less.",
+          },
+        ],
+      }),
+    });
+
+    const text = await result.text();
+    _setTitle(text);
+  };
+
+  useEffect(() => {
+    if (messages.length > 0 && !isLoadingChat) {
+      setInitialMessages(messages);
+      if (doesSave) {
+        fetch("/api/saveChat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+            title,
+            messages,
+          }),
+        });
+      }
+    }
+    if (messages.length > 3 && !title) {
+      promptForSummary();
+    }
+  }, [messages.length, isLoadingChat]);
+
+  const hasLoadedInitialMessages = useRef(false);
+
+  useEffect(() => {
+    if (getIsLoadingInitialMessages() || hasLoadedInitialMessages.current)
+      return;
+    if (initialMessages) {
+      hasLoadedInitialMessages.current = true;
+      setMessages(initialMessages);
+    }
+  }, [getIsLoadingInitialMessages()]);
+
+  useEffect(() => {
+    scrollToBottom();
+    if (!hasSubmitted.current) return;
     const latestMessage = messages[messages.length - 1];
     if (latestMessage && latestMessage.role === "assistant") {
       let sentences = latestMessage.content
@@ -51,7 +153,6 @@ export default function ChatBox({}: {}) {
         }
       }
     }
-    scrollToBottom();
   }, [messages]);
 
   useEffect(() => {
@@ -122,15 +223,20 @@ export default function ChatBox({}: {}) {
 
   return (
     <div className="flex flex-col items-center size-full overflow-auto">
-      <div className="flex flex-col items-center justify-center w-full md:w-3/4 p-16 gap-8">
-        {messages.map((message) => (
-          <Message key={message.id} role={message.role}>
-            {message.content}
-          </Message>
-        ))}
+      <div className="flex flex-col items-center justify-center w-full md:w-3/4 md:p-8 gap-8">
+        {messages
+          .filter((message) => message.role !== "system")
+          .map((message) => (
+            <MessageBox key={message.id} role={message.role} id={message.id}>
+              {message.content}
+            </MessageBox>
+          ))}
         <div ref={messagesEndRef} />
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => {
+            hasSubmitted.current = true;
+            handleSubmit(e);
+          }}
           className="bg-white/70 dark:bg-neutral-800/70 rounded-5xl w-full text-lg"
         >
           <input
@@ -155,10 +261,10 @@ function VoiceSelect({
   setVoice: (voice: string) => void;
 }) {
   return (
-    <div className="fixed bottom-16 right-16">
+    <div className="fixed bottom-72 right-4 md:bottom-16 md:right-16">
       <div className="flex flex-row items-center justify-center w-full gap-8">
         <select
-          className="bg-neutral-500 text-white rounded-5xl p-2 w-24 h-24 flex justify-center items-center text-md font-ageta text-center"
+          className="bg-neutral-500 text-white rounded-5xl p-2 w-20 h-20 md:w-24 md:h-24 flex justify-center items-center text-xs md:text-md font-ageta text-center"
           id="voices"
           name="voices"
           value={voice}
@@ -182,22 +288,27 @@ function VoiceSelect({
   );
 }
 
-function Message({
+function MessageBox({
   role,
+  id,
   children,
 }: {
   role: string;
+  id: string;
   children: React.ReactNode;
 }) {
   return (
     <div
+      key={id}
       className={cn(
         "bg-white dark:bg-neutral-800 p-8 rounded-5xl w-full text-lg",
         role === "user" && "bg-white/50 dark:bg-neutral-800/50"
       )}
     >
-      <div className="text-sm text-gray-500">{role}</div>
-      <div className="p-8 rounded-2xl w-full text-lg md:text-2xl">
+      <div className="text-sm text-gray-500">
+        {role === "user" ? "You" : "AI"}
+      </div>
+      <div className="md:p-8 rounded-2xl w-full text-lg md:text-2xl">
         {children}
       </div>
     </div>

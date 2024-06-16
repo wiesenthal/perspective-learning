@@ -1,27 +1,29 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRefState } from "./useRefState";
 
 const getFromLocalStorage = <T>(key: string): T | undefined => {
   const value =
     typeof window !== "undefined" && window.localStorage?.getItem(key);
   if (value) {
-    console.log("value", value);
     return JSON.parse(value)["value"];
   }
 };
 
 export default function useLocalStorage<T>(key: string, defaultValue: T) {
   const [value, _setValue] = useState<T | undefined>();
-  const isLoading = useRef(true);
+  const [getIsLoading, setIsLoading] = useRefState(true);
 
   useEffect(() => {
-    if (isLoading.current) {
-      const value = getFromLocalStorage<T>(key) ?? defaultValue;
-      if (value !== undefined) {
+    if (getIsLoading()) {
+      const value = getFromLocalStorage<T>(key);
+      if (value === undefined && defaultValue !== undefined) {
+        setValue(defaultValue);
+      } else if (value !== undefined) {
         _setValue(value);
       }
-      isLoading.current = false;
+      setIsLoading(false);
     }
   }, []);
 
@@ -35,5 +37,5 @@ export default function useLocalStorage<T>(key: string, defaultValue: T) {
     _setValue(value);
   };
 
-  return { value, setValue };
+  return { value, setValue, getIsLoading };
 }
