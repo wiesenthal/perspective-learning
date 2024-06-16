@@ -83,7 +83,7 @@ You will put this new person in a situation which reflects the core belief of th
           setOpenSelector={setOpenSelector}
         />
       )}
-      {id && (
+      {id && selectedPerspective && (
         <ChatBox
           key={id}
           id={`download-${id}`}
@@ -95,7 +95,7 @@ You will put this new person in a situation which reflects the core belief of th
                 .toString(36)
                 .substring(2, 15)}`,
               role: "system",
-              content: constructSysPrompt(selectedPerspective),
+              content: constructSysPrompt(selectedPerspective) ?? "",
             },
             {
               id: `${Math.random().toString(36).substring(2, 15)}${Math.random()

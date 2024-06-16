@@ -1,5 +1,5 @@
 import { CoreMessage, generateText } from "ai";
-import { models, DEFAULT_MODEL } from "../generate/route";
+import { models, DEFAULT_MODEL } from "../generate/models";
 
 export async function POST(req: Request) {
   let {
