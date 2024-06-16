@@ -28,19 +28,20 @@ const getAudio = async (text: string, model: string) => {
 
     try {
       // Ensure 'public/audio' directory exists
-      const audioDirectory = path.join(process.cwd(), "public", "audio");
+      const audioDirectory = path.join(
+        process.env.NODE_ENV === "development" ? process.cwd() : "/tmp",
+        "public",
+        "audio"
+      );
       if (!fs.existsSync(audioDirectory)) {
         fs.mkdirSync(audioDirectory, { recursive: true });
       }
 
       // Write audio file to 'public/audio' directory
       await new Promise((resolve, reject) => {
-        fs.writeFile(
-          path.join(audioDirectory, fileName),
-          buffer,
-          (err) => {
-            if (err) {
-              console.error("Error writing audio to file:", err);
+        fs.writeFile(path.join(audioDirectory, fileName), buffer, (err) => {
+          if (err) {
+            console.error("Error writing audio to file:", err);
             reject(err);
           } else {
             console.log("Audio file written to audio.wav");

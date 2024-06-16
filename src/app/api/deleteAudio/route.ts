@@ -8,7 +8,11 @@ export async function POST(request: Request) {
   console.log("delete audio, ", fileName);
 
   try {
-    const audioDirectory = path.join(process.cwd(), "public");
+    const audioDirectory = path.join(
+      process.env.NODE_ENV === "development" ? process.cwd() : "/tmp",
+      "public",
+      "audio"
+    );
     const filePath = path.join(audioDirectory, fileName);
 
     console.log("filePath", filePath);

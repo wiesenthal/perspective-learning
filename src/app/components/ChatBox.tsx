@@ -81,8 +81,7 @@ export default function ChatBox({
         messages: [
           {
             role: "system",
-            content:
-              "Encapsulate the subject into 3 short words or less",
+            content: "Encapsulate the subject into 3 short words or less",
           },
           ...messages,
           {
