@@ -154,7 +154,7 @@ const DownloadSelector = ({
   return (
     <div className="size-full fixed bg-white/50 top-0 left-0 backdrop-blur-sm">
       <div
-        className="DownloadSelector fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center justify-center bg-black/50 p-12 rounded-full max-h-[80%] overflow-y-auto backdrop-blur"
+        className="DownloadSelector fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col items-center bg-black/50 p-12 rounded-full max-h-[80%] overflow-y-auto backdrop-blur"
         onMouseDown={() => setOpenSelector(false)}
       >
         <div className="flex flex-col items-center justify-center gap-4">
