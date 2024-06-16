@@ -157,15 +157,17 @@ const DownloadSelector = ({
         onMouseDown={() => setOpenSelector(false)}
       >
         <div className="flex flex-col items-center justify-center gap-4">
-          {perspectives?.map(({ id, name }) => (
-            <Button
-              key={id}
-              className="text-2xl md:text-2xl p-24"
-              onMouseDown={() => handleClick(id)}
-            >
-              {name}
-            </Button>
-          ))}
+          {perspectives
+            ?.filter((p) => p.name && (p.messages?.length ?? 0 > 0))
+            ?.map(({ id, name }) => (
+              <Button
+                key={id}
+                className="text-2xl md:text-2xl p-24"
+                onMouseDown={() => handleClick(id)}
+              >
+                {name}
+              </Button>
+            ))}
         </div>
       </div>
     </div>

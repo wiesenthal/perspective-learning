@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Perspective Learning",
-  description: "Learn a story, memories, to learn this character",
+  title: "Empath.Bot",
+  description: "Upload and download empathy",
 };
 
 export default function RootLayout({
