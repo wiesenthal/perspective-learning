@@ -53,7 +53,7 @@ const getAudio = async (text: string, model: string) => {
       throw err;
     }
 
-    return `audio/${fileName}`;
+    return `/api/audio/${fileName}`;
   } else {
     console.error("Error generating audio:", stream);
     throw new Error("Error generating audio: Stream is empty");
