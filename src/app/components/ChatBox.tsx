@@ -239,7 +239,7 @@ export default function ChatBox({
           className="bg-white/70 dark:bg-neutral-800/70 rounded-5xl w-full text-lg"
         >
           <input
-            className="size-full rounded-5xl p-16"
+            className="size-full rounded-5xl p-16 bg-white/50 dark:bg-neutral-800/50"
             onChange={handleInputChange}
             value={input}
             placeholder="Input Message Here"
