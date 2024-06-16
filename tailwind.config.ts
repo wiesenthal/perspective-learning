@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        ageta: ["Ageta", "sans-serif"],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -30,6 +33,11 @@ const config: Config = {
         "inner-lg": "inset 0 0 5px 0 rgba(0, 0, 0, 0.1)",
         "inner-md": "inset 0 0 2px 0 rgba(0, 0, 0, 0.1)",
         "inner-sm": "inset 0 0 2px 0 rgba(0, 0, 0, 0.1)",
+      },
+      borderRadius: {
+        "4xl": "2rem",
+        "5xl": "3rem",
+        "6xl": "4rem",
       },
     },
   },

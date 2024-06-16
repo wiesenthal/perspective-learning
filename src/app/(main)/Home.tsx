@@ -10,11 +10,10 @@ export default function Home() {
       <Button
         className="text-5xl leading-relaxed"
         onMouseDown={(e) => {
-          console.log("upload");
           setPage(Page.Upload);
         }}
       >
-        Upload Perspective
+        Upload
       </Button>
     </div>
   );

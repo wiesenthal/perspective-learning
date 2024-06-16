@@ -31,3 +31,10 @@ body {
     text-wrap: balance;
   }
 }
+
+@font-face {
+  font-family: "Ageta";
+  src: url("/fonts/Ageta.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
